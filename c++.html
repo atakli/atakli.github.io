@@ -13,13 +13,14 @@
 
 <div style="margin: auto; width: 85%;">
 
-<h1 style="text-align: center;"><a href="index.html" class="fa fa-home"></a> &raquo; C++ Notlarım</h1>
+<h4 style="text-align: left;"><a href="index.html">Anasayfa</a></h4>
+<h1 style="text-align: center;">C++ Notlarım</h1>
 
 <!-- <p></p> -->
 
  <ol>
-  <li>As of C++11, returning from a function is defined as a move operation, so even if the copy isn’t elided, so long as the type has a move constructor, no copy occurs.</li><br>
-  <li><code>T1() : t( 100 ){}</code> Here the assignment t = 100 happens in initializer list, much before the class initilization occurs. (T1(): constructor)</li><br>
+  <li>As of C++11, returning from a function is defined as a move operation, so even if the copy isn’t elided, so long as the type has a move constructor, no copy occurs.</li>
+  <li><pre>T1() : t( 100 ){}</pre> Here the assignment t = 100 happens in initializer list, much before the class initilization occurs. (T1(): constructor)</li><br>
   <li>You can't rely on a specific number of destructors being called. You shouldn't have critical logic inside copy/move-constructors or destructors, as you can't rely on them being called. (copy elision'dan dolayı)</li><br>
   <li>char *'da printf ve türevleri durmak için null ternimation karakteri arar</li><br>
   <li>All classes that contain signals or slots must mention Q_OBJECT at the top of their declaration. They must also derive (directly or indirectly) from QObject.</li><br>
