@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C++ Notlarım</title>
+<!-- <style type="text/css">@import url("wnarifin.css");</style> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+
+<body>
+
+<div style="margin: auto; width: 85%;">
+
+<h1 style="text-align: center;"><a href="index.html" class="fa fa-home"></a> &raquo; C++ Notlarım</h1>
+
+<!-- <p></p> -->
+
+ <ol>
+  <li>As of C++11, returning from a function is defined as a move operation, so even if the copy isn’t elided, so long as the type has a move constructor, no copy occurs.</li><br>
+  <li><code>T1() : t( 100 ){}</code> Here the assignment t = 100 happens in initializer list, much before the class initilization occurs. (T1(): constructor)</li><br>
+  <li>You can't rely on a specific number of destructors being called. You shouldn't have critical logic inside copy/move-constructors or destructors, as you can't rely on them being called. (copy elision'dan dolayı)</li><br>
+  <li>char *'da printf ve türevleri durmak için null ternimation karakteri arar</li><br>
+  <li>All classes that contain signals or slots must mention Q_OBJECT at the top of their declaration. They must also derive (directly or indirectly) from QObject.</li><br>
+  <li>An lvalue (locator value) represents an object that occupies some identifiable location in memory (i.e. has an address).</li><br>
+  <li></li><br>
+
+</ol> 
+
+<!-- <pre>inline return-type function-name(parameters) -->
+<!-- { -->
+    <!-- // function code -->
+<!-- }  </pre> -->
+
+<!-- <p style="text-align: center;"><code>&copy; Wan Nor Arifin 2017-<script type="text/javascript" src="year_now.js"></script>  -->
+<!-- </code></p> -->
+
+</div>
+
+</body>
+
+</html>
