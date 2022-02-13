@@ -26,6 +26,32 @@
   <li>char *'da printf ve türevleri durmak için null ternimation karakteri arar</li><br>
   <li>All classes that contain signals or slots must mention Q_OBJECT at the top of their declaration. They must also derive (directly or indirectly) from QObject.</li><br>
   <li>An lvalue (locator value) represents an object that occupies some identifiable location in memory (i.e. has an address).</li><br>
+  <li><b>Race condition</b> birden fazla thread'in aynı objeye ulaşıp değiştirmeye çalıştırdıkları zaman oluşan tutarsız durumdur. <b>Dead lock</b> ise race condition oluşmasın diye lock'lanan bir işlemin sonucunda bu sefer diğer istenmeyen sonucun oluşmasıdır: bir thread lock içine girip değişiklik yaptığında sonraki thread lock'a uyar ama bu sefer güncel değer üzerinden değil önceki değer üzerinden işlemini gerçekleştirir. bunun için de volatile kullanılır. ta ki sonraki thread objenin güncel hali için beklesin.
+yani her bir thread'in local memory'sindeki değişimin main memory'e yansımış olduğundan emin olalım. </li><br>
+  <li>int* m_X, m_Y yerine int* m_X, *m_Y demen lazım</li><br>
+  <li>class inherit edilecekse destructor virtual olmalı yoksa sıkıntı. inherit edilmeyecekse olmasa iyi olurmuş sanırım because of size and performance issue. ama o zaman da o görmezden gelinerek inherit edilmesin diye oraya not düşülmeli. mesela classes/templates from the standard library. They are not intended for inheritance and they do not have a virtual destructor. If, for example, we create a new enhanced string class that publicly inherits from std::string there is possibility that somebody will use it incorrectly with a pointer or a reference to std::string and cause a memory leak. <pre>class MyString : public std::string
+{	
+	~MyString() 
+	{
+		std::cout << "destructor called\n"; 
+	} 
+}; 
+int main()
+{
+	std::string *s = new MyString(); 
+	delete s;
+	// May not invoke the destructor defined in MyString
+}</pre> 
+</li><br>
+  <li>- auto kullanımı compile time'ı artırabilir ama runtime'ı etkilemez. hatta bazen run-time'ı artırabilir bile. çünkü mesela for(value : variable) kodunda value'yu düzgün yazamayabilriiz ve böylece & ile alsak bile type conversion gerekeceği için kopyalanabilir. auto bizi tonlarca kopyadan kurtarmış olur </li><br>
+  <li>C/C++'ın üstün özelliklerinden biri: 500 elemanlı bi diziyi fonksiyona geçerek kopyalanmasına sebep olmak yerine sadece ilk elemanın adresini geçip çok performanslı bi iş yapmış oluyosun</li><br>
+  <li><pre>#define CV_32FC(n) n+1
+std::cout << CV_32FC(5) << '\n';</li><br>
+  <li>always prefer std::array, then vector</li><br>
+  <li></li><br>
+  <li></li><br>
+  <li></li><br>
+  <li></li><br>
   <li></li><br>
 
 </ol> 
