@@ -43,14 +43,17 @@ int main()
 	// May not invoke the destructor defined in MyString
 }</pre> 
 </li><br>
-  <li>- auto kullanımı compile time'ı artırabilir ama runtime'ı etkilemez. hatta bazen run-time'ı artırabilir bile. çünkü mesela for(value : variable) kodunda value'yu düzgün yazamayabilriiz ve böylece & ile alsak bile type conversion gerekeceği için kopyalanabilir. auto bizi tonlarca kopyadan kurtarmış olur </li><br>
+  <li>auto kullanımı compile time'ı artırabilir ama runtime'ı etkilemez. hatta bazen run-time'ı artırabilir bile. çünkü mesela for(value : variable) kodunda value'yu düzgün yazamayabilriiz ve böylece & ile alsak bile type conversion gerekeceği için kopyalanabilir. auto bizi tonlarca kopyadan kurtarmış olur </li><br>
   <li>C/C++'ın üstün özelliklerinden biri: 500 elemanlı bi diziyi fonksiyona geçerek kopyalanmasına sebep olmak yerine sadece ilk elemanın adresini geçip çok performanslı bi iş yapmış oluyosun</li><br>
-  <li><pre>#define CV_32FC(n) n+1
-std::cout << CV_32FC(5) << '\n';</li><br>
+  <li>hoş:
+  <pre>#define CV_32FC(n) n+1
+std::cout << CV_32FC(5) << '\n';</li>
+  <li>hoş:
+  <pre>template&lt;typename T1, typename T2&gt;
+using mul = std::ratio_multiply&lt;T1, T2&gt;;</pre></li>
   <li>always prefer std::array, then vector</li><br>
-  <li></li><br>
-  <li></li><br>
-  <li></li><br>
+  <li>Object lifetime'ını kısıtlamak için scope kullanılabilir</li><br>
+  <li>Some industries that are under very hard scrutiny, like for example aviation or defense, the standard library is off-limits because it is difficult to verify and prove that it is correct to whatever governing body sets the regulations. You may argue that the standard library is well tested and I would agree with you but you and I don't make the rules. Also some hard real-time systems are not allowed to use dynamic memory allocation at all as the delay a system call causes might not be theoretically bounded and you can not prove the real-time behavior of the program. Or the bound may be too large which breaks your WCET limit. Although not applicable here, as they wouldn't use unique_ptr either but those kinds of projects really do exist.</li><br>
   <li></li><br>
   <li></li><br>
 
