@@ -174,6 +174,7 @@ std::tuple user2("M", "Chy", 25);	// deduction in action!</pre></li>
   <li>Variables should be declared as late as possible, and ideally only when it's possible to initialize the object. Reduced variable scope results in less memory being used, more efficient code in general, and helps the compiler optimize the code further.</li>
 <li><pre>#define PI 3.14159;</pre>yerine, class'ın içinde:<pre>static constexpr double PI = 3.14159;</pre>kullan. Çünkü compiler definitions and macros are replaced by the preprocessor before the compiler is ever run. This can make debugging very difficult because the debugger doesn't know where the source came from.</li><br>
   <li>[[nodiscard]], [[maybe_unused]]</li><br>
+  <li><pre></pre></li><br>
   <li></li><br>
 
 
@@ -182,7 +183,10 @@ std::tuple user2("M", "Chy", 25);	// deduction in action!</pre></li>
 <h3 style="text-align: left;">Clean kod vs</h3>
 <ol>
  <li>... bunu niye o class'ın içinde oluşturmuyosun da burda oluşturup oraya geçiyosun?</li><br>
- <li>istemcilerin nesneye olan bağımlılığı azalmalı. yani ona sağladığı veri minimum olmalı</li><br>
+ <li>İstemcilerin nesneye olan bağımlılığı azalmalı. yani ona sağladığı veri minimum olmalı</li><br>
+ <li>Nesne üretimi belli yerlerde olmalı ve new kullanımı gizlenmeli</li><br>
+ <li>Bir sınıf fonksiyonel birlikteliğe sahip olmalı. Sadece bir sebepten dolayı değişme ihitmali olmalı. Efradını cami, ağyarını mani. SRP'li metot, bölünemez olmalı</li><br>
+ <li></li><br>
 </ol> 
 
 <!-- <pre>inline return-type function-name(parameters) -->
