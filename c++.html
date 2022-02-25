@@ -42,7 +42,7 @@ int main()
 	delete s;
 	// May not invoke the destructor defined in MyString
 }</pre> 
-</li><br>
+</li>
   <li>auto kullanımı compile time'ı artırabilir ama runtime'ı etkilemez. hatta bazen run-time'ı artırabilir bile. çünkü mesela for(value : variable) kodunda value'yu düzgün yazamayabilriiz ve böylece & ile alsak bile type conversion gerekeceği için kopyalanabilir. auto bizi tonlarca kopyadan kurtarmış olur </li><br>
   <li>C/C++'ın üstün özelliklerinden biri: 500 elemanlı bi diziyi fonksiyona geçerek kopyalanmasına sebep olmak yerine sadece ilk elemanın adresini geçip çok performanslı bi iş yapmış oluyosun</li><br>
   <li>hoş:
@@ -50,13 +50,139 @@ int main()
 std::cout << CV_32FC(5) << '\n';</li>
   <li>hoş:
   <pre>template&lt;typename T1, typename T2&gt;
-using mul = std::ratio_multiply&lt;T1, T2&gt;;</pre></li>
+using mul = std::ratio_multiply&lt;T1, T2&gt;;</pre></li>  
+<li>hoş:
+  <pre>template &lt;typename T = float&gt;
+struct MyContainer {
+  T val;
+  MyContainer() : val{} {}
+  MyContainer(T val) : val{val} {}
+  // ...
+};
+MyContainer c1 {1}; // OK MyContainer<int>
+MyContainer c2; // OK MyContainer<float></pre></li>
+<li>A type-safe container for single values of any type: (C++17)
+  <pre>
+std::any x {5};
+x.has_value() // == true
+std::any_cast&lt;int&gt;(x) // == 5
+std::any_cast&lt;int&&gt;(x) = 10;
+std::any_cast&lt;int&gt;(x) // == 10</pre></li>
   <li>always prefer std::array, then vector</li><br>
   <li>Object lifetime'ını kısıtlamak için scope kullanılabilir</li><br>
-  <li>Some industries that are under very hard scrutiny, like for example aviation or defense, the standard library is off-limits because it is difficult to verify and prove that it is correct to whatever governing body sets the regulations. You may argue that the standard library is well tested and I would agree with you but you and I don't make the rules. Also some hard real-time systems are not allowed to use dynamic memory allocation at all as the delay a system call causes might not be theoretically bounded and you can not prove the real-time behavior of the program. Or the bound may be too large which breaks your WCET limit. Although not applicable here, as they wouldn't use unique_ptr either but those kinds of projects really do exist.</li><br>
-  <li></li><br>
+  <li>Some industries that are under very hard scrutiny, like for example aviation or defense, the standard library is off-limits because it is difficult to verify and prove that it is correct to whatever governing body sets the regulations. You may argue that the standard library is well tested and I would agree with you but you and I don't make the rules. Also some hard real-time systems are not allowed to use dynamic memory allocation at all as the delay a system call causes might not be theoretically bounded and you can not prove the real-time behavior of the program. Or the bound may be too large which breaks your WCET limit. Although not applicable here, as they wouldn't use unique_ptr either but those kinds of projects really do exist.</li>
+  <li><pre>void SomeMethod()
+{
+  ClassA *a = new ClassA;
+  SomeOtherMethod();      // it can throw an exception
+  delete a;
+}</pre>Use smart pointers as always as possible.</li>
+  <li><pre>template&lt;typename T&gt;    
+void moronic_delete(T*& p)
+{
+    delete p;
+    p = nullptr;
+}</pre>
+
+Without the reference, you would only be changing a local copy of the pointer, not affecting the caller.</li><br>
+  <li>Deleting a derived class object using a pointer of base class type that has a non-virtual destructor results in undefined behavior. As a guideline, any time you have a virtual function in a class, you should immediately add a virtual destructor (even if it does nothing). This way, you ensure against any surprises later.</li><br>
+  <li>reference null olamıyo o yüzden pointer'a göre daha safe to use. reference variable'In başka bi ismi gibi. Overall, Use references when you can, and pointers when you have to. But if we want to write C code that compiles with both C and a C++ compiler, you’ll have to restrict yourself to using pointers.</li><br>
+  <li>Sıradışı durumlar olabileceğini daima gözönünde bulundurmak gereklidir. Dosya bulunamadığında yeni bir dosya oluşturup devam etmek veya yeni dosyayı user'dan istemek gibi ...</li><br>
+  <li>Expression sabitken ilk parametrenin içeriğini değiştirerek type'ı değiştirmek:<pre>typedef std::conditional<sizeof(int) >= sizeof(double), int, double>::type Type3;</pre></li>
+  <li>Digit separators
+<pre>int no = 1'000'000;                      // separate units like, thousand, lac, million, etc.
+long addr = 0xA000'EFFF;                 // separate 32 bit address
+uint32_t binary = 0b0001'0010'0111'1111; // now, explanation is not needed i guess</pre></li>
+  <li><pre>using ull = unsigned long long;
+
+constexpr ull operator"" _KB(ull no)
+{
+    return no * 1024;
+}
+
+constexpr ull operator"" _MB(ull no)
+{
+    return no * (1024_KB);
+}
+
+int main(int argc, char *argv[])
+{
+    std::cout << 1_KB << std::endl;
+    std::cout << 5_MB << std::endl;
+    return 0;
+}</pre></li>
+  <li>From C++11, it’s possible to give normal class member variables (those that don’t use the static keyword) a default initialization</li>
+  <li><pre>auto g = new auto(123);</pre></li>
+  <li><pre>struct demo
+{
+    explicit operator bool() const  {return true;}
+};
+
+demo d;
+if(d);
+// bool b_d1 = d;  // explicit demezsek caiz
+bool b_d = static_cast<bool>(d);</pre></li>
+  <li><pre>template &lt;typename X, typename Y&gt;
+auto add(X x, Y y) -> decltype(x + y)
+{
+    return x + y;
+}
+add(1, 2);     // == 3
+add(1, 2.0);   // == 3.0
+add(1.5, 1.5); // == 3.0</pre></li>
+  <li><pre>void print() {}
+
+template &lt;typename First, typename... Rest&gt;
+void print(const First &first, Rest &&... args)
+{
+    std::cout << first << std::endl;
+    print(args...);
+}
+
+print(1, "lol", 1.1);
+
+// A C++ template with at least one parameter pack is called a variadic template.</pre></li>
+  <li><pre>constexpr uint32_t fibonacci(uint32_t i)
+{
+    return (i <= 1u) ? i : (fibonacci(i - 1) + fibonacci(i - 2));
+}
+constexpr auto fib_5th_term = fibonacci(6); // equal to `auto fib_5th_term = 8`</pre></li>
+  <li><pre>struct demo
+{
+    demo() = default;
+};
+demo d;
+
+// Now you might be wondering that rather than writing 8+ letters(i.e. = default;), I could simply use {} i.e. empty constructor. That’s true! but think about copy constructor, copy assignment operator, etc.
+// An empty copy constructor, for example, will not do the same as a defaulted copy constructor (which will perform a member-wise copy of its members).</pre></li>  
+<li><pre>struct demo
+{
+    int m_var;
+    demo(int var) : m_var(var) {}
+    demo() : demo(0) {}		// From C++11, now constructors can call other constructors in the same class using an initializer list.
+};
+demo d;</pre></li>
+<li><pre>// Declare functions wherever you want. That too with zero cost performance impact. 
+auto generator = [i = 0]() mutable { return ++i; };
+cout << generator() << endl; 
+cout << generator() << endl; 
+cout << generator() << endl;</pre></li>
+<li><pre>std::pair<std::string, int> user = {"M", 25};	// previous
+std::pair user = {"M", 25};	// C++17
+std::tuple<std::string, std::string, int> user("M", "Chy", 25);	// previous
+std::tuple user2("M", "Chy", 25);	// deduction in action!</pre></li>
+  <li>Variables should be declared as late as possible, and ideally only when it's possible to initialize the object. Reduced variable scope results in less memory being used, more efficient code in general, and helps the compiler optimize the code further.</li>
+<li><pre>#define PI 3.14159;</pre>yerine, class'ın içinde:<pre>static constexpr double PI = 3.14159;</pre>kullan. Çünkü compiler definitions and macros are replaced by the preprocessor before the compiler is ever run. This can make debugging very difficult because the debugger doesn't know where the source came from.</li><br>
+  <li>[[nodiscard]], [[maybe_unused]]</li><br>
   <li></li><br>
 
+
+
+</ol> 
+<h3 style="text-align: left;">Clean kod vs</h3>
+<ol>
+ <li>... bunu niye o class'ın içinde oluşturmuyosun da burda oluşturup oraya geçiyosun?</li><br>
+ <li>istemcilerin nesneye olan bağımlılığı azalmalı. yani ona sağladığı veri minimum olmalı</li><br>
 </ol> 
 
 <!-- <pre>inline return-type function-name(parameters) -->
