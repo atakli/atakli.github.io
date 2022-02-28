@@ -1,0 +1,1 @@
+birden fazla sistem oluşturup (popülasyondaki birey sayısı gibi parametreleri farklı olan), sonra çok beklemeden onların arasındaki en başarılı olanları kendi arasında çiftleştirmek
