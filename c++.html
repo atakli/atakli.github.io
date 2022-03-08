@@ -45,6 +45,7 @@ int main()
 </li>
   <li>auto kullanımı compile time'ı artırabilir ama runtime'ı etkilemez. hatta bazen run-time'ı artırabilir bile. çünkü mesela for(value : variable) kodunda value'yu düzgün yazamayabilriiz ve böylece & ile alsak bile type conversion gerekeceği için kopyalanabilir. auto bizi tonlarca kopyadan kurtarmış olur </li><br>
   <li>C/C++'ın üstün özelliklerinden biri: 500 elemanlı bi diziyi fonksiyona geçerek kopyalanmasına sebep olmak yerine sadece ilk elemanın adresini geçip çok performanslı bi iş yapmış oluyosun</li><br>
+  <li>Consider avoiding boolean parameters. They do not provide any additional meaning while reading the code. You can either create a separate function that has a more meaningful name, or pass an enumeration that makes the meaning more clear.</li><br>
   <li>hoş:
   <pre>#define CV_32FC(n) n+1
 std::cout << CV_32FC(5) << '\n';</li>
@@ -86,9 +87,10 @@ void moronic_delete(T*& p)
 
 Without the reference, you would only be changing a local copy of the pointer, not affecting the caller.</li><br>
   <li>Deleting a derived class object using a pointer of base class type that has a non-virtual destructor results in undefined behavior. As a guideline, any time you have a virtual function in a class, you should immediately add a virtual destructor (even if it does nothing). This way, you ensure against any surprises later.</li><br>
-  <li>reference null olamıyo o yüzden pointer'a göre daha safe to use. reference variable'In başka bi ismi gibi. Overall, Use references when you can, and pointers when you have to. But if we want to write C code that compiles with both C and a C++ compiler, you’ll have to restrict yourself to using pointers.</li><br>
-  <li>Sıradışı durumlar olabileceğini daima gözönünde bulundurmak gereklidir. Dosya bulunamadığında yeni bir dosya oluşturup devam etmek veya yeni dosyayı user'dan istemek gibi ...</li><br>
-  <li>Expression sabitken ilk parametrenin içeriğini değiştirerek type'ı değiştirmek:<pre>typedef std::conditional<sizeof(int) >= sizeof(double), int, double>::type Type3;</pre></li>
+  <li>reference null olamıyo o yüzden pointer'a göre daha safe to use. reference variable'ın başka bi ismi gibi. Overall, Use references when you can, and pointers when you have to. But if we want to write C code that compiles with both C and a C++ compiler, you’ll have to restrict yourself to using pointers.</li><br>
+  <li>Sıradışı durumlar olabileceğini daima gözönünde bulundurmak gerek. Dosya bulunamadığında yeni bir dosya oluşturup devam etmek veya yeni dosyayı user'dan istemek gibi.</li><br>
+  <li>Expression sabitken ilk parametrenin içeriğini değiştirerek type'ı değiştirmek:<pre>typedef std::conditional&lt;sizeof(int) >= sizeof(double), int, double>::type Type3;</pre></li>
+  <li>You have the possibility to define variadic functions by yourself but this is a possible security risk. The usage of variadic functions is not type safe and the wrong input parameters can cause a program termination with an undefined behavior. This undefined behavior can be exploited to a security problem. (Variadic functions can accept a variable number of parameters. The probably best known example is printf().)</li><br>
   <li>Digit separators
 <pre>int no = 1'000'000;                      // separate units like, thousand, lac, million, etc.
 long addr = 0xA000'EFFF;                 // separate 32 bit address
@@ -113,6 +115,52 @@ int main(int argc, char *argv[])
 }</pre></li>
   <li>From C++11, it’s possible to give normal class member variables (those that don’t use the static keyword) a default initialization</li>
   <li><pre>auto g = new auto(123);</pre></li>
+  <li>Properly utilize 'override' and 'final'. These keywords make it clear to other developers how virtual functions are being utilized, can catch potential errors if the signature of a virtual function changes (?), and can possibly hint to the compiler of optimizations that can be performed.</li><br>
+  <li>Avoid Compiler Macros as much as possible. Use class variable instead. Compiler definitions and macros are replaced by the preprocessor before the compiler is ever run. This can make debugging very difficult because the debugger doesn't know where the source came from. For example: <pre>#define PI 3.14159;</pre></li>
+  <li>Never Use using namespace in a header file.</li><br>
+  <li>Initialize member variables with the member initializer list. For POD types, the performance of an initializer list is the same as manual initialization, but for other types there is a clear performance gain.
+  <pre>
+// Bad Idea
+// This leads to an additional constructor call for m_myOtherClass before the assignment.
+class MyClass
+{
+public:
+  MyClass(MyOtherClass t_myOtherClass)
+  {
+    m_myOtherClass = t_myOtherClass;
+  }
+
+private:
+  MyOtherClass m_myOtherClass;
+};
+
+// Good Idea
+// The default constructor for m_myOtherClass is never called here, so
+// there is a performance gain if MyOtherClass is not is_trivially_default_constructible.
+class MyClass
+{
+public:
+  MyClass(MyOtherClass t_myOtherClass)
+    : m_myOtherClass(t_myOtherClass)
+  {
+  }
+
+private:
+  MyOtherClass m_myOtherClass;
+};
+</pre></li>
+  <li>Use "" for including local files.</li><br>
+  <li>Narrowing from signed to unsigned not allowed, leads to a compile time error for assigning default values with brace initialization; <i><b>not</b></i> for assigning default values with =. So prefer {} initialization over = unless you have a strong reason not to.</li><br>
+  <li>There is almost never a reason to declare an identifier in the global namespace. Instead, functions and classes should exist in an appropriately named namespace or in a class inside of a namespace. Identifiers which are placed in the global namespace risk conflicting with identifiers from other libraries (mostly C, which doesn't have namespaces).</li><br>
+  <li>Forgetting to initialize a member is a source of undefined behavior bugs which are often extremely hard to find.</li>
+  <li><pre>// Bad Idea
+assert(set_value(something));
+
+// Better Idea
+[[maybe_unused]] const auto success = set_value(something);
+assert(success);</pre>The <code>assert()</code> will be removed in release builds which will prevent the <code>set_value</code> call from ever happening.
+
+So while the second version is uglier, the first version is simply not correct.</li>
   <li><pre>struct demo
 {
     explicit operator bool() const  {return true;}
@@ -129,7 +177,13 @@ auto add(X x, Y y) -> decltype(x + y)
 }
 add(1, 2);     // == 3
 add(1, 2.0);   // == 3.0
-add(1.5, 1.5); // == 3.0</pre></li>
+add(1.5, 1.5); // == 3.0</pre></li>  
+<li>Note that you can cause integer underflow when performing some operations on unsigned values. So ake sure you stick with the correct integer types and remain consistent with the C++ standard library. It might not warn on the platform you are currently using, but it probably will when you change platforms. In general, using auto will avoid most of these issues, but not all. For example:
+<pre>std::vector<int> v1{2,3,4,5,6,7,8,9};
+std::vector<int> v2{9,8,7,6,5,4,3,2,1};
+const auto s1 = v1.size();
+const auto s2 = v2.size();
+const auto diff = s1 - s2; // diff underflows to a very large number</pre></li>
   <li><pre>void print() {}
 
 template &lt;typename First, typename... Rest&gt;
@@ -172,8 +226,18 @@ std::pair user = {"M", 25};	// C++17
 std::tuple<std::string, std::string, int> user("M", "Chy", 25);	// previous
 std::tuple user2("M", "Chy", 25);	// deduction in action!</pre></li>
   <li>Variables should be declared as late as possible, and ideally only when it's possible to initialize the object. Reduced variable scope results in less memory being used, more efficient code in general, and helps the compiler optimize the code further.</li>
+  <li>const tells the compiler that a variable or method is immutable. This helps the compiler optimize the code and helps the developer know if a function has a side effect. Also, using const & prevents the compiler from copying data unnecessarily.</li>
+  <li>Instead, pass and return simple types by value. If you plan not to change passed value, declare them as const, but not const refs. Because passing and returning by reference leads to pointer operations, instead of much faster passing of values in processor registers.</li>
+  <li>avoid using std::shared_ptr to hold an array.</li>
 <li><pre>#define PI 3.14159;</pre>yerine, class'ın içinde:<pre>static constexpr double PI = 3.14159;</pre>kullan. Çünkü compiler definitions and macros are replaced by the preprocessor before the compiler is ever run. This can make debugging very difficult because the debugger doesn't know where the source came from.</li><br>
   <li>[[nodiscard]], [[maybe_unused]]</li><br>
+  <li>So in code like the following, no copies are required: (copy elision)<pre>std::vector<std::string> names = get_names();</pre></li>
+  <li>Bad Idea:<pre>double x = getX();
+int i = (int) x;</pre>Not a Bad Idea:<pre>int i = static_cast<int>(x);</pre>The C++-style cast allows more compiler checks and is considerably safer. Additionally the C++ cast style is more visible and has the possibility to search for.</li><br>
+  <li>For large objects that implement proper move constructors (such as vectors, strings …), pass by value is vastly more efficient than pass by reference, then copy internally.</li><br>
+  <li><pre></pre></li><br>
+  <li><pre></pre></li><br>
+  <li><pre></pre></li><br>
   <li><pre></pre></li><br>
   <li></li><br>
 
