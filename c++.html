@@ -235,14 +235,6 @@ std::tuple user2("M", "Chy", 25);	// deduction in action!</pre></li>
   <li>Bad Idea:<pre>double x = getX();
 int i = (int) x;</pre>Not a Bad Idea:<pre>int i = static_cast<int>(x);</pre>The C++-style cast allows more compiler checks and is considerably safer. Additionally the C++ cast style is more visible and has the possibility to search for.</li><br>
   <li>For large objects that implement proper move constructors (such as vectors, strings …), pass by value is vastly more efficient than pass by reference, then copy internally.</li><br>
-  <li><pre></pre></li><br>
-  <li><pre></pre></li><br>
-  <li><pre></pre></li><br>
-  <li><pre></pre></li><br>
-  <li></li><br>
-
-
-
 </ol> 
 <h3 style="text-align: left;">Clean kod vs</h3>
 <ol>
@@ -250,7 +242,6 @@ int i = (int) x;</pre>Not a Bad Idea:<pre>int i = static_cast<int>(x);</pre>The 
  <li>İstemcilerin nesneye olan bağımlılığı azalmalı. yani ona sağladığı veri minimum olmalı</li><br>
  <li>Nesne üretimi belli yerlerde olmalı ve new kullanımı gizlenmeli</li><br>
  <li>Bir sınıf fonksiyonel birlikteliğe sahip olmalı. Sadece bir sebepten dolayı değişme ihitmali olmalı. Efradını cami, ağyarını mani. SRP'li metot, bölünemez olmalı</li><br>
- <li></li><br>
 </ol> 
 
 <!-- <pre>inline return-type function-name(parameters) -->
