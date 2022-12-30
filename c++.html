@@ -21,7 +21,7 @@
 
  <ol>
   <li>As of C++11, returning from a function is defined as a move operation, so even if the copy isn’t elided, so long as the type has a move constructor, no copy occurs.</li>
-  <li><pre>T1() : t( 100 ){}</pre> Here the assignment t = 100 happens in initializer list, much before the class initilization occurs. (T1(): constructor)</li><br>
+  <!-- <li><pre>T1() : t( 100 ){}</pre> Here the assignment t = 100 happens in initializer list, much before the class initilization occurs. (T1(): constructor)</li><br> -->
   <li>You can't rely on a specific number of destructors being called. You shouldn't have critical logic inside copy/move-constructors or destructors, as you can't rely on them being called. (copy elision'dan dolayı)</li><br>
   <li>char *'da printf ve türevleri durmak için null ternimation karakteri arar</li><br>
   <li>All classes that contain signals or slots must mention Q_OBJECT at the top of their declaration. They must also derive (directly or indirectly) from QObject.</li><br>
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
     std::cout << 5_MB << std::endl;
     return 0;
 }</pre></li>
-  <li>From C++11, it’s possible to give normal class member variables (those that don’t use the static keyword) a default initialization</li>
+  <!-- <li>From C++11, it’s possible to give normal class member variables (those that don’t use the static keyword) a default initialization</li> -->
   <li><pre>auto g = new auto(123);</pre></li>
   <li>Properly utilize 'override' and 'final'. These keywords make it clear to other developers how virtual functions are being utilized, can catch potential errors if the signature of a virtual function changes (?), and can possibly hint to the compiler of optimizations that can be performed.</li><br>
   <li>Avoid Compiler Macros as much as possible. Use class variable instead. Compiler definitions and macros are replaced by the preprocessor before the compiler is ever run. This can make debugging very difficult because the debugger doesn't know where the source came from. For example: <pre>#define PI 3.14159;</pre></li>
@@ -221,16 +221,17 @@ auto generator = [i = 0]() mutable { return ++i; };
 cout << generator() << endl; 
 cout << generator() << endl; 
 cout << generator() << endl;</pre></li>
-<li><pre>std::pair<std::string, int> user = {"M", 25};	// previous
-std::pair user = {"M", 25};	// C++17
-std::tuple<std::string, std::string, int> user("M", "Chy", 25);	// previous
-std::tuple user2("M", "Chy", 25);	// deduction in action!</pre></li>
+<li><pre>std::pair&lt;std::string, int&gt; user = {"M", 25};			// previous
+std::pair user = {"M", 25};					// C++17
+std::tuple&lt;std::string, std::string, int&gt; user("M", "Chy", 25);	// previous
+std::tuple user2("M", "Chy", 25);				// deduction in action!</pre></li>
   <li>Variables should be declared as late as possible, and ideally only when it's possible to initialize the object. Reduced variable scope results in less memory being used, more efficient code in general, and helps the compiler optimize the code further.</li>
-  <li>const tells the compiler that a variable or method is immutable. This helps the compiler optimize the code and helps the developer know if a function has a side effect. Also, using const & prevents the compiler from copying data unnecessarily.</li>
+  <li>const tells the compiler that a variable or method is immutable. This helps the compiler optimize the code and helps the developer know if a function has a side effect. Also, using const prevents the compiler from copying data unnecessarily.</li>
   <li>Instead, pass and return simple types by value. If you plan not to change passed value, declare them as const, but not const refs. Because passing and returning by reference leads to pointer operations, instead of much faster passing of values in processor registers.</li>
   <li>avoid using std::shared_ptr to hold an array.</li>
 <li><pre>#define PI 3.14159;</pre>yerine, class'ın içinde:<pre>static constexpr double PI = 3.14159;</pre>kullan. Çünkü compiler definitions and macros are replaced by the preprocessor before the compiler is ever run. This can make debugging very difficult because the debugger doesn't know where the source came from.</li><br>
   <li>[[nodiscard]], [[maybe_unused]]</li><br>
+  <li>stateless lambdalar implicitly function pointer'a dönüşür. o yüzden c apilerine geçebilirsin. <a href="https://youtu.be/xBAduq0RGes?t=341">hoş</a></li><br>
   <li>So in code like the following, no copies are required: (copy elision)<pre>std::vector<std::string> names = get_names();</pre></li>
   <li>Bad Idea:<pre>double x = getX();
 int i = (int) x;</pre>Not a Bad Idea:<pre>int i = static_cast<int>(x);</pre>The C++-style cast allows more compiler checks and is considerably safer. Additionally the C++ cast style is more visible and has the possibility to search for.</li><br>
