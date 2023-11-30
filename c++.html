@@ -115,9 +115,9 @@ int main(int argc, char *argv[])
 }</pre></li>
   <!-- <li>From C++11, it’s possible to give normal class member variables (those that don’t use the static keyword) a default initialization</li> -->
   <li><pre>auto g = new auto(123);</pre></li>
-  <li>Properly utilize 'override' and 'final'. These keywords make it clear to other developers how virtual functions are being utilized, can catch potential errors if the signature of a virtual function changes (?), and can possibly hint to the compiler of optimizations that can be performed.</li><br>
+  <li>Properly utilize 'override' and 'final'. These keywords make it clear to other developers how virtual functions are being utilized, can catch potential errors if the signature of a virtual function changes, and can possibly hint to the compiler of optimizations that can be performed.</li><br>
   <li>Avoid Compiler Macros as much as possible. Use class variable instead. Compiler definitions and macros are replaced by the preprocessor before the compiler is ever run. This can make debugging very difficult because the debugger doesn't know where the source came from. For example: <pre>#define PI 3.14159;</pre></li>
-  <li>Never Use using namespace in a header file.</li><br>
+  <li>Never use namespace in a header file.</li><br>
   <li>Initialize member variables with the member initializer list. For POD types, the performance of an initializer list is the same as manual initialization, but for other types there is a clear performance gain.
   <pre>
 // Bad Idea
