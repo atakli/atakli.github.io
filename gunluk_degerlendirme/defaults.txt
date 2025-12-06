@@ -1,0 +1,9 @@
+# Varsayılan Sorular
+# Format: Soru Metni | Cevap1, Cevap2, Cevap3
+# # ile başlayan satırlar yorum satırıdır ve yok sayılır
+
+Bugün başın ağrıdı mı? | Evet, Hayır
+Bugün mide bulantın oldu mu? | Evet, Hayır
+Bugün ilaç aldın mı? | Evet, Hayır
+Bugün uyku kaliteniz nasıldı? | Çok iyi, İyi, Orta, Kötü, Çok kötü
+Bugün stres seviyeniz nasıldı? | Çok yüksek, Yüksek, Orta, Düşük, Çok düşük

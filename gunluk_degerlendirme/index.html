@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Günlük Sorular">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="stylesheet" href="style.css">
+    <title>Günlük Sorular</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Günlük Sorular</h1>
+        </header>
+
+        <main>
+            <!-- Ana Ekran -->
+            <div id="homeScreen" class="screen active">
+                <div class="reminder-alert" id="reminderAlert" style="display: none;">
+                    <p>⚠️ Bugünün sorularından bazıları henüz cevaplanmadı!</p>
+                </div>
+
+                <h2 style="color: white; text-align: center; margin-bottom: 20px;">Bugünün Soruları</h2>
+
+                <div id="questionsContainer">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+
+                <div class="settings-container">
+                    <button id="settingsToggle" class="btn-settings" title="Ayarlar">⚙️</button>
+                    <div id="settingsMenu" class="settings-menu" style="display: none;">
+                        <button id="viewHistory" class="btn btn-secondary">Geçmiş Cevapları Görüntüle</button>
+                        <button id="manageQuestions" class="btn btn-secondary">Soruları Yönet</button>
+                        <button id="loadDefaults" class="btn btn-secondary">Varsayılan Soruları Yükle</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Geçmiş Ekranı -->
+            <div id="historyScreen" class="screen">
+                <button class="btn btn-back" id="backFromHistory">← Geri</button>
+                <h2>Geçmiş Cevaplar</h2>
+                <div class="export-buttons">
+                    <button id="exportData" class="btn btn-secondary">Veriyi İndir (JSON)</button>
+                    <button id="clearHistory" class="btn btn-danger">Tüm Geçmişi Sil</button>
+                </div>
+                <div id="historyList"></div>
+            </div>
+
+            <!-- Soru Yönetimi Ekranı -->
+            <div id="questionsScreen" class="screen">
+                <button class="btn btn-back" id="backFromQuestions">← Geri</button>
+                <h2>Soruları Yönet</h2>
+                <div class="add-question">
+                    <input type="text" id="newQuestion" placeholder="Yeni soru ekle...">
+                    <button id="addQuestion" class="btn btn-primary">Ekle</button>
+                </div>
+                <div id="questionsList"></div>
+            </div>
+
+            <!-- Varsayılan Sorular Ekranı -->
+            <div id="defaultQuestionsScreen" class="screen">
+                <button class="btn btn-back" id="backFromDefaults">← Geri</button>
+                <h2>Varsayılan Sorular</h2>
+                <p style="margin-bottom: 20px; color: #666;">Eklemek istediğiniz soruları seçin:</p>
+                <div id="defaultQuestionsList"></div>
+                <button id="addSelectedDefaults" class="btn btn-primary" style="margin-top: 20px;">Seçilenleri Ekle</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Answer Edit Modal -->
+    <div id="answerEditModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cevabı Değiştir</h3>
+                <button id="closeAnswerModal" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalCurrentAnswer" style="margin-bottom: 15px; font-weight: 500;"></p>
+                <p style="margin-bottom: 10px; color: #666;">Yeni cevabı seçin:</p>
+                <div id="modalAnswerOptions" class="modal-answer-options"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

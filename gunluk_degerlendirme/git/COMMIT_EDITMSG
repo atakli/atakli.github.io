@@ -1,0 +1,11 @@
+Update historical answers when question text is edited
+
+When editing a question's text via "Soruları Yönet -> Soruyu Düzenle",
+all historical answers for that question now update to show the new text.
+
+Uses question ID to find and update all matching answers in history.
+This ensures consistency between current questions and past answers.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>

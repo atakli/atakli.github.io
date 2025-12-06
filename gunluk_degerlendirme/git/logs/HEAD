@@ -1,0 +1,10 @@
+0000000000000000000000000000000000000000 9833a04ff8147ef054f7bc5f298d57788902ea27 Emre ATAKLI <atakliemre93@gmail.com> 1762888917 +0300	commit (initial): Create PWA notification app for iPhone
+9833a04ff8147ef054f7bc5f298d57788902ea27 ee478d3f23fa39c4ee016d44d7bdbdf33f112b6c Emre ATAKLI <atakliemre93@gmail.com> 1762889769 +0300	commit: Improve iOS notification handling
+ee478d3f23fa39c4ee016d44d7bdbdf33f112b6c 7b38df732dbd9887b48b63827cecc833a519c8ca Emre ATAKLI <atakliemre93@gmail.com> 1762890375 +0300	commit: Replace notifications with iOS Shortcuts automation
+7b38df732dbd9887b48b63827cecc833a519c8ca 99fe93caa18ba4a7ff488e5e6fb374d8df0cff48 Emre ATAKLI <atakliemre93@gmail.com> 1762891701 +0300	commit: Add deployment guide for GitHub Pages
+99fe93caa18ba4a7ff488e5e6fb374d8df0cff48 f931ecf439e585373ab068801a73925c5b034760 Emre ATAKLI <atakliemre93@gmail.com> 1764873048 +0300	commit: Remove reminder time feature and add custom answer options
+f931ecf439e585373ab068801a73925c5b034760 aaaf10c6adb1a9a41bcada5e214201c1003d8f9c Emre ATAKLI <atakliemre93@gmail.com> 1765013721 +0300	commit: Allow each question to have custom answer options
+aaaf10c6adb1a9a41bcada5e214201c1003d8f9c 0ae466f37008e628c79c28efc3a34937a80b84ae Emre ATAKLI <atakliemre93@gmail.com> 1765014118 +0300	commit: Display all questions on home page instead of just first one
+0ae466f37008e628c79c28efc3a34937a80b84ae b1d17b39e239158c285c9733a658ca8ec3ea842b Emre ATAKLI <atakliemre93@gmail.com> 1765019218 +0300	commit: Add comprehensive improvements to question and history management
+b1d17b39e239158c285c9733a658ca8ec3ea842b a5ddab145514686aa8a7a65d608091298d4b54be Emre ATAKLI <atakliemre93@gmail.com> 1765020974 +0300	commit: Fix default questions loading and improve answer editing UX
+a5ddab145514686aa8a7a65d608091298d4b54be 6987f1c434afae0058104e6a2fae90605729bebb Emre ATAKLI <atakliemre93@gmail.com> 1765029603 +0300	commit: Update historical answers when question text is edited
