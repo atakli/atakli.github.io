@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sağlık Rutinleri Takibi</title>
+    <title>Blueprint Rutin Takibi</title>
     <style>
         :root {
             --bg-color: #f4f7f6;
@@ -123,9 +123,28 @@
             transform: scale(1.2);
             cursor: pointer;
         }
+        .todo-item span {
+            font-size: 0.95rem;
+        }
+        .todo-item .time-stamp {
+            color: var(--sub-accent-color);
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-left: 5px;
+        }
+        .todo-item .details {
+            display: block;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-top: 2px;
+        }
         .todo-item.checked span {
             text-decoration: line-through;
             color: #95a5a6;
+        }
+        .todo-item.checked .details {
+            text-decoration: none;
+            color: #bdc3c7;
         }
         .source-link {
             text-align: center;
@@ -141,7 +160,7 @@
 <body>
 
 <div class="container">
-    <h1>Sağlık Rutinleri Takibi</h1>
+    <h1>Blueprint Rutin Takibi</h1>
     <div class="subtitle">Bryan Johnson'ın <a href="https://www.youtube.com/shorts/_L-pjxsd2HU" target="_blank">videosundaki</a> tavsiyeler</div>
 
     <div class="progress-container">
@@ -163,77 +182,117 @@ const data = [
     {
         title: "🛌 Uyku ve Gece Rutini",
         items: [
-            "Yatakta 8 saat geçirmek (Dünyanın en güçlü ilacı uykudur)",
-            "Her gece aynı saatte yatmak",
-            "Gece yarısından (00:00) önce yatağa girmiş olmak",
-            "Uykudan hemen önce hiçbir şey yememek",
-            "Akşam yemeğinde hafif ve sakinleştirici gıdalar tüketmek",
-            "Yatmadan 1 saat önce tüm ekranları (telefon, TV, PC) kapatmak",
-            "Yatmadan önce kitap okumak",
-            "Yatmadan önce 1 saatlik gevşeme/rahatlama rutini uygulamak",
-            "Soğuk bir odada uyumak"
+            { text: "Yatakta 8 saat geçirmek (Dünyanın en güçlü ilacı uykudur)" },
+            { text: "Her gece aynı saatte yatmak" },
+            { text: "Gece yarısından (00:00) önce yatağa girmiş olmak" },
+            { text: "Uykudan hemen önce hiçbir şey yememek" },
+            { text: "Akşam yemeğinde hafif ve sakinleştirici gıdalar tüketmek" },
+            { text: "Yatmadan 1 saat önce tüm ekranları (telefon, TV, PC) kapatmak" },
+            { text: "Yatmadan önce kitap okumak" },
+            { text: "Yatmadan önce 1 saatlik gevşeme/rahatlama rutini uygulamak" },
+            { text: "Soğuk bir odada uyumak" }
         ]
     },
     {
         title: "🥗 Beslenme ve Gıda Alışkanlıkları",
         items: [
-            "İlave şekerden uzak durmak",
-            "Kızarmış yiyeceklerden kaçınmak",
-            "Hazır ve paketli atıştırmalıklardan uzak durmak",
-            "İşlenmemiş, bütünsel gıdalar (whole foods) tüketmek",
-            "Gün içinde su içmek için bilinçli çaba göstermek",
-            "Alkolden tamamen uzak durmak",
-            "Kahve tüketimini öğlen 12:00'den önce bitirmek",
-            "Gerekliyse/Obezite durumunda GLP-1 gibi tıbbi destekleri değerlendirmek"
+            { text: "İlave şekerden uzak durmak" },
+            { text: "Kızarmış yiyeceklerden kaçınmak" },
+            { text: "Hazır ve paketli atıştırmalıklardan uzak durmak" },
+            { text: "İşlenmemiş, bütünsel gıdalar (whole foods) tüketmek" },
+            { text: "Gün içinde su içmek için bilinçli çaba göstermek" },
+            { text: "Alkolden tamamen uzak durmak" },
+            { text: "Kahve tüketimini öğlen 12:00'den önce bitirmek" },
+            { text: "Gerekliyse/Obezite durumunda GLP-1 gibi tıbbi destekleri değerlendirmek" }
         ]
     },
     {
-        title: "🏃‍♂️ Egzersiz ve Günlük Hareket",
+        title: "🏋️‍♂️ Gelişmiş Egzersiz ve Uzun Yaşam Protokolü",
         items: [
-            "Yemeklerden sonra hafif yürüyüş veya 'air squat' yapmak",
-            "Nabzı düzenli olarak yüksek seviyelere çıkaracak kardiyo yapmak",
-            "Düzenli olarak ağır yükler kaldırmak (ağırlık antrenmanı)",
-            "Her gün esneme (stretching) egzersizleri yapmak",
-            "Gün içinde dik durmaya özen göstermek",
-            "Uzun süre hareketsiz oturmaktan kaçınmak"
+            { 
+                text: "Güç Antrenmanı (Strength Training)", 
+                time: "03:30", 
+                desc: "Haftada en az 3 gün tüm vücudu çalıştıran bileşik (compound) hareketlere (itme, çekme, squat) odaklanın, kademeli yük artırımı yapın. Kas sağlığı erken ölüm riskini %20-35 azaltan metabolik bir zırhtır." 
+            },
+            { 
+                text: "Düşük Yoğunluklu Kardiyo (Zone 2)", 
+                time: "05:54", 
+                desc: "Haftada toplam 150 dakika yürüyüş, koşu, bisiklet veya yüzme hedefleyin (Konuşma testi: Rahatça konuşabilmelisiniz). Mitokondri gelişimini ve yağ yakımını optimize eder." 
+            },
+            { 
+                text: "Yemek Sonrası 10 Dakikalık Kısa Yürüyüşler", 
+                time: "07:26", 
+                desc: "Yemeklerden hemen sonra kan şekerini dengelemek açısından oldukça etkilidir." 
+            },
+            { 
+                text: "Yüksek Yoğunluklu Kardiyo (Zone 4 & 5)", 
+                time: "07:45", 
+                desc: "Haftada 75 dakika yüksek yoğunluklu kardiyo (maksimum kalp hızının %80-90'ı) yapın veya Norveç 4x4 protokolünü uygulayın. Kalp-akciğer kapasitesini (VO2 max) ve doğrudan yaşam süresini artırır." 
+            },
+            { 
+                text: "Mobilite ve Esneklik (Mobility & Flexibility)", 
+                time: "10:37", 
+                desc: "Her gün kalça, omurga, ayak bilekleri, hamstring ve omuzları esneten 5-10 dakikalık rutinler uygulayın. İlerleyen yaşta bağımsız ve özgür hareket imkanı sağlar." 
+            },
+            { 
+                text: "Denge Çalışmaları (Balance)", 
+                time: "11:56", 
+                desc: "Günlük rutinlere gözleri kapatarak tek ayak üzerinde durma çalışması (single-leg stands) ekleyin. Nörolojik sağlığı korur (Tek ayak üzerinde 10 saniye duramayanların erken ölüm riski yüksektir)." 
+            },
+            { 
+                text: "Bryan Johnson Yaklaşımı: İstikrarı Yakalamak", 
+                time: "13:34", 
+                desc: "Mükemmel veya aşırı yoğun bir programa takılmak yerine, bu sütunları tutarlı bir şekilde hayatın bir parçası haline getirerek yaşlandığında kimseye muhtaç olmayan bir vücut inşa et." 
+            }
+        ]
+    },
+    {
+        title: "🏃‍♂️ Egzersiz ve Günlük Hareket (Temel)",
+        items: [
+            { text: "Yemeklerden sonra hafif yürüyüş veya 'air squat' yapmak" },
+            { text: "Nabzı düzenli olarak yüksek seviyelere çıkaracak kardiyo yapmak" },
+            { text: "Düzenli olarak ağır yükler kaldırmak (ağırlık antrenmanı)" },
+            { text: "Her gün esneme (stretching) egzersizleri yapmak" },
+            { text: "Gün içinde dik durmaya özen göstermek" },
+            { text: "Uzun süre hareketsiz oturmaktan kaçınmak" }
         ]
     },
     {
         title: "🦷 Hijyen ve Genel Sağlık",
         items: [
-            "Eve girerken kapıda ayakkabıları çıkarmak",
-            "Sabah ve akşam: Diş ipi kullanmak, diş fırçalamak ve dil kazımak",
-            "Düzenli olarak diş hekimine gitmek",
-            "Yüksek sese karşı işitme duyusunu korumak",
-            "Sigara, vape veya dumanlı herhangi bir şeyi asla içmemek"
+            { text: "Eve girerken kapıda ayakkabıları çıkarmak" },
+            { text: "Sabah ve akşam: Diş ipi kullanmak, diş fırçalamak ve dil kazımak" },
+            { text: "Düzenli olarak diş hekimine gitmek" },
+            { text: "Yüksek sese karşı işitme duyusunu korumak" },
+            { text: "Sigara, vape veya dumanlı herhangi bir şeyi asla içmemek" }
         ]
     },
     {
         title: "☀️ Işık ve Çevre Yönetimi",
         items: [
-            "Sabah uyanır uyanmaz güneş ışığı almak",
-            "Gün ortasındaki dik güneş ışınlarından cildi korumak",
-            "Gün batımından sonra parlak ışıklara maruz kalmamak",
-            "Hayatın her alanında plastik kullanımını olabildiğince azaltmak",
-            "Yaşanılan odalardaki havayı düzenli olarak havalandırmak"
+            { text: "Sabah uyanır uyanmaz güneş ışığı almak" },
+            { text: "Gün ortasındaki dik güneş ışınlarından cildi korumak" },
+            { text: "Gün batımından sonra parlak ışıklara maruz kalmamak" },
+            { text: "Hayatın her alanında plastik kullanımını olabildiğince azaltmak" },
+            { text: "Yaşanılan odalardaki havayı düzenli olarak havalandırmak" }
         ]
     },
     {
         title: "🧠 Zihinsel Sağlık, Dijital Detoks ve Sosyal Yaşam",
         items: [
-            "Stres anlarında durup derin nefes egzersizi yapmak",
-            "Haftada en az bir kez bir arkadaşla fiziksel olarak görüşmek",
-            "Telefondaki tüm bildirimleri kapatmak",
-            "Sosyal medya kullanımını ciddi oranda sınırlandırmak",
-            "Araç kullanırken asla mesajlaşmamak"
+            { text: "Stres anlarında durup derin nefes egzersizi yapmak" },
+            { text: "Haftada en az bir kez bir arkadaşla fiziksel olarak görüşmek" },
+            { text: "Telefondaki tüm bildirimleri kapatmak" },
+            { text: "Sosyal medya kullanımını ciddi oranda sınırlandırmak" },
+            { text: "Araç kullanırken asla mesajlaşmamak" }
         ]
     },
     {
         title: "⏳ Yaşam Felsefesi",
         items: [
-            "Vücudun bir saat olduğunu unutmayıp rutinlere sadık kalmak",
-            "Mümkün mertebe uzun mesafeli seyahatlerden kaçınmak",
-            "Daha az şey yapmaya odaklanmak (Çünkü çoğu şey zaten işe yaramaz)"
+            { text: "Vücudun bir saat olduğunu unutmayıp rutinlere sadık kalmak" },
+            { text: "Mümkün mertebe uzun mesafeli seyahatlerden kaçınmak" },
+            { text: "Daha az şey yapmaya odaklanmak (Çünkü çoğu şey zaten işe yaramaz)" }
         ]
     }
 ];
@@ -247,7 +306,6 @@ data.forEach((cat, catIdx) => {
     catDiv.className = 'category';
     catDiv.setAttribute('data-cat-idx', catIdx);
     
-    // Kategori Başlığı ve Yüzde Alanı
     catDiv.innerHTML = `
         <div class="category-header">
             <h2>${cat.title}</h2>
@@ -269,19 +327,24 @@ data.forEach((cat, catIdx) => {
         const isChecked = localStorage.getItem(itemId) === 'true';
         if(isChecked) itemLabel.classList.add('checked');
 
+        const timeSpan = item.time ? `<span class="time-stamp">[${item.time}]</span>` : '';
+        const descSpan = item.desc ? `<span class="details">${item.desc}</span>` : '';
+
         itemLabel.innerHTML = `
             <input type="checkbox" id="${itemId}" data-cat="${catIdx}" ${isChecked ? 'checked' : ''} onchange="toggleItem('${itemId}', ${catIdx})">
-            <span>${item}</span>
+            <div>
+                <span>${item.text} ${timeSpan}</span>
+                ${descSpan}
+            </div>
         `;
         catDiv.appendChild(itemLabel);
     });
     contentDiv.appendChild(catDiv);
 });
 
-// Event Handler
 function toggleItem(id, catIdx) {
     const checkbox = document.getElementById(id);
-    const label = checkbox.parentElement;
+    const label = checkbox.parentElement.parentElement; // div ve label katmanları için
     
     localStorage.setItem(id, checkbox.checked);
     
@@ -293,11 +356,9 @@ function toggleItem(id, catIdx) {
     updateProgress();
 }
 
-// Tüm İlerleme Barlarını Güncelleyen Fonksiyon
 function updateProgress() {
     let globalCheckedCount = 0;
     
-    // Her kategori için ayrı hesaplama yapalım
     data.forEach((cat, catIdx) => {
         const catTotal = cat.items.length;
         let catChecked = 0;
@@ -310,19 +371,16 @@ function updateProgress() {
             }
         });
         
-        // Kategori yüzdesi ve barı güncellemesi
         const catPercent = catTotal > 0 ? Math.round((catChecked / catTotal) * 100) : 0;
         document.getElementById(`cat-text-${catIdx}`).innerText = `%${catPercent}`;
         document.getElementById(`cat-fill-${catIdx}`).style.width = `${catPercent}%`;
     });
     
-    // Genel ilerleme yüzdesi ve barı güncellemesi
     const globalPercent = totalItemsCount > 0 ? Math.round((globalCheckedCount / totalItemsCount) * 100) : 0;
     document.getElementById('progress-text').innerText = `Genel İlerleme: ${globalCheckedCount} / ${totalItemsCount} (%${globalPercent})`;
     document.getElementById('progress-fill').style.width = `${globalPercent}%`;
 }
 
-// Sayfa yüklendiğinde mevcut durumları hesapla
 updateProgress();
 </script>
 
