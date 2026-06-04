@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blueprint Rutin Takibi</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #2ecc71;
+            --sub-accent-color: #3498db;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        .subtitle a {
+            color: var(--sub-accent-color);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--sub-accent-color);
+        }
+        .subtitle a:hover {
+            color: #2980b9;
+            border-bottom-style: solid;
+        }
+        .progress-container {
+            position: sticky;
+            top: 10px;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            z-index: 100;
+        }
+        .progress-bar {
+            background: var(--border-color);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .progress-fill {
+            background: var(--accent-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .category {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+        .category h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: #34495e;
+        }
+        .cat-progress-text {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--sub-accent-color);
+            background: #e8f4fd;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        .cat-progress-bar {
+            background: var(--border-color);
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            margin-top: -6px;
+        }
+        .cat-progress-fill {
+            background: var(--sub-accent-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .todo-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 12px 0;
+            cursor: pointer;
+            user-select: none;
+        }
+        .todo-item input {
+            margin-top: 5px;
+            margin-right: 12px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+        .todo-item.checked span {
+            text-decoration: line-through;
+            color: #95a5a6;
+        }
+        .source-link {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.85rem;
+        }
+        .source-link a {
+            color: #3498db;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sağlık Rutinleri Takibi</h1>
+    <div class="subtitle">Bryan Johnson'ın <a href="https://www.youtube.com/shorts/_L-pjxsd2HU" target="_blank">videosundaki</a> tavsiyeler</div>
+
+    <div class="progress-container">
+        <div id="progress-text">Genel İlerleme: 0 / 0 (%0)</div>
+        <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+        </div>
+    </div>
+
+    <div id="checklist-content"></div>
+
+    <div class="source-link">
+        Kaynak video: <a href="https://www.youtube.com/shorts/_L-pjxsd2HU" target="_blank">everything i've learned (YouTube)</a>
+    </div>
+</div>
+
+<script>
+const data = [
+    {
+        title: "🛌 Uyku ve Gece Rutini",
+        items: [
+            "Yatakta 8 saat geçirmek (Dünyanın en güçlü ilacı uykudur)",
+            "Her gece aynı saatte yatmak",
+            "Gece yarısından (00:00) önce yatağa girmiş olmak",
+            "Uykudan hemen önce hiçbir şey yememek",
+            "Akşam yemeğinde hafif ve sakinleştirici gıdalar tüketmek",
+            "Yatmadan 1 saat önce tüm ekranları (telefon, TV, PC) kapatmak",
+            "Yatmadan önce kitap okumak",
+            "Yatmadan önce 1 saatlik gevşeme/rahatlama rutini uygulamak",
+            "Soğuk bir odada uyumak"
+        ]
+    },
+    {
+        title: "🥗 Beslenme ve Gıda Alışkanlıkları",
+        items: [
+            "İlave şekerden uzak durmak",
+            "Kızarmış yiyeceklerden kaçınmak",
+            "Hazır ve paketli atıştırmalıklardan uzak durmak",
+            "İşlenmemiş, bütünsel gıdalar (whole foods) tüketmek",
+            "Gün içinde su içmek için bilinçli çaba göstermek",
+            "Alkolden tamamen uzak durmak",
+            "Kahve tüketimini öğlen 12:00'den önce bitirmek",
+            "Gerekliyse/Obezite durumunda GLP-1 gibi tıbbi destekleri değerlendirmek"
+        ]
+    },
+    {
+        title: "🏃‍♂️ Egzersiz ve Günlük Hareket",
+        items: [
+            "Yemeklerden sonra hafif yürüyüş veya 'air squat' yapmak",
+            "Nabzı düzenli olarak yüksek seviyelere çıkaracak kardiyo yapmak",
+            "Düzenli olarak ağır yükler kaldırmak (ağırlık antrenmanı)",
+            "Her gün esneme (stretching) egzersizleri yapmak",
+            "Gün içinde dik durmaya özen göstermek",
+            "Uzun süre hareketsiz oturmaktan kaçınmak"
+        ]
+    },
+    {
+        title: "🦷 Hijyen ve Genel Sağlık",
+        items: [
+            "Eve girerken kapıda ayakkabıları çıkarmak",
+            "Sabah ve akşam: Diş ipi kullanmak, diş fırçalamak ve dil kazımak",
+            "Düzenli olarak diş hekimine gitmek",
+            "Yüksek sese karşı işitme duyusunu korumak",
+            "Sigara, vape veya dumanlı herhangi bir şeyi asla içmemek"
+        ]
+    },
+    {
+        title: "☀️ Işık ve Çevre Yönetimi",
+        items: [
+            "Sabah uyanır uyanmaz güneş ışığı almak",
+            "Gün ortasındaki dik güneş ışınlarından cildi korumak",
+            "Gün batımından sonra parlak ışıklara maruz kalmamak",
+            "Hayatın her alanında plastik kullanımını olabildiğince azaltmak",
+            "Yaşanılan odalardaki havayı düzenli olarak havalandırmak"
+        ]
+    },
+    {
+        title: "🧠 Zihinsel Sağlık, Dijital Detoks ve Sosyal Yaşam",
+        items: [
+            "Stres anlarında durup derin nefes egzersizi yapmak",
+            "Haftada en az bir kez bir arkadaşla fiziksel olarak görüşmek",
+            "Telefondaki tüm bildirimleri kapatmak",
+            "Sosyal medya kullanımını ciddi oranda sınırlandırmak",
+            "Araç kullanırken asla mesajlaşmamak"
+        ]
+    },
+    {
+        title: "⏳ Yaşam Felsefesi",
+        items: [
+            "Vücudun bir saat olduğunu unutmayıp rutinlere sadık kalmak",
+            "Mümkün mertebe uzun mesafeli seyahatlerden kaçınmak",
+            "Daha az şey yapmaya odaklanmak (Çünkü çoğu şey zaten işe yaramaz)"
+        ]
+    }
+];
+
+const contentDiv = document.getElementById('checklist-content');
+let totalItemsCount = 0;
+
+// DOM Oluşturma aşaması
+data.forEach((cat, catIdx) => {
+    const catDiv = document.createElement('div');
+    catDiv.className = 'category';
+    catDiv.setAttribute('data-cat-idx', catIdx);
+    
+    // Kategori Başlığı ve Yüzde Alanı
+    catDiv.innerHTML = `
+        <div class="category-header">
+            <h2>${cat.title}</h2>
+            <span id="cat-text-${catIdx}" class="cat-progress-text">%0</span>
+        </div>
+        <div class="cat-progress-bar">
+            <div id="cat-fill-${catIdx}" class="cat-progress-fill"></div>
+        </div>
+    `;
+    
+    cat.items.forEach((item, itemIdx) => {
+        const itemId = `item_${catIdx}_${itemIdx}`;
+        totalItemsCount++;
+        
+        const itemLabel = document.createElement('label');
+        itemLabel.className = 'todo-item';
+        itemLabel.setAttribute('for', itemId);
+        
+        const isChecked = localStorage.getItem(itemId) === 'true';
+        if(isChecked) itemLabel.classList.add('checked');
+
+        itemLabel.innerHTML = `
+            <input type="checkbox" id="${itemId}" data-cat="${catIdx}" ${isChecked ? 'checked' : ''} onchange="toggleItem('${itemId}', ${catIdx})">
+            <span>${item}</span>
+        `;
+        catDiv.appendChild(itemLabel);
+    });
+    contentDiv.appendChild(catDiv);
+});
+
+// Event Handler
+function toggleItem(id, catIdx) {
+    const checkbox = document.getElementById(id);
+    const label = checkbox.parentElement;
+    
+    localStorage.setItem(id, checkbox.checked);
+    
+    if(checkbox.checked) {
+        label.classList.add('checked');
+    } else {
+        label.classList.remove('checked');
+    }
+    updateProgress();
+}
+
+// Tüm İlerleme Barlarını Güncelleyen Fonksiyon
+function updateProgress() {
+    let globalCheckedCount = 0;
+    
+    // Her kategori için ayrı hesaplama yapalım
+    data.forEach((cat, catIdx) => {
+        const catTotal = cat.items.length;
+        let catChecked = 0;
+        
+        cat.items.forEach((_, itemIdx) => {
+            const itemId = `item_${catIdx}_${itemIdx}`;
+            if(localStorage.getItem(itemId) === 'true') {
+                catChecked++;
+                globalCheckedCount++;
+            }
+        });
+        
+        // Kategori yüzdesi ve barı güncellemesi
+        const catPercent = catTotal > 0 ? Math.round((catChecked / catTotal) * 100) : 0;
+        document.getElementById(`cat-text-${catIdx}`).innerText = `%${catPercent}`;
+        document.getElementById(`cat-fill-${catIdx}`).style.width = `${catPercent}%`;
+    });
+    
+    // Genel ilerleme yüzdesi ve barı güncellemesi
+    const globalPercent = totalItemsCount > 0 ? Math.round((globalCheckedCount / totalItemsCount) * 100) : 0;
+    document.getElementById('progress-text').innerText = `Genel İlerleme: ${globalCheckedCount} / ${totalItemsCount} (%${globalPercent})`;
+    document.getElementById('progress-fill').style.width = `${globalPercent}%`;
+}
+
+// Sayfa yüklendiğinde mevcut durumları hesapla
+updateProgress();
+</script>
+
+</body>
+</html>
